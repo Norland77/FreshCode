@@ -49,9 +49,12 @@ model Activity {
 
 enum ActivityType {
   ADD_CARD
+  EDIT_CARD
   DELETE_CARD
   ADD_COMMENT
   MOVE_CARD
+  ADD_LIST
+  EDIT_LIST
   DELETE_LIST
 }
 

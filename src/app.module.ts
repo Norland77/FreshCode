@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BoardModule } from './board/board.module';
 import { ActivityModule } from './activity/activity.module';
+import { ListModule } from './list/list.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ActivityModule } from './activity/activity.module';
     PrismaModule,
     BoardModule,
     ActivityModule,
+    ListModule,
   ],
   controllers: [],
   providers: [
