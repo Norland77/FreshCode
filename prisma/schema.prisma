@@ -1,0 +1,83 @@
+generator client {
+  provider      = "prisma-client-js"
+  // output        = "./generated/client"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String     @id @default(uuid())
+  username String     @unique
+  email    String     @unique
+  password String
+  token    Token[]
+  boards   Board[]
+  activity Activity[]
+  comments Comments[]
+}
+
+model Token {
+  token  String   @unique
+  exp    DateTime
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model Board {
+  id       String     @id @default(uuid())
+  title    String     @unique
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  activity Activity[]
+  lists    List[]
+}
+
+model Activity {
+  id          String       @id @default(uuid())
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  board       Board        @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId     String
+  description String
+  type        ActivityType
+  createdAt   DateTime     @default(now())
+}
+
+enum ActivityType {
+  ADD_CARD
+  DELETE_CARD
+  ADD_COMMENT
+  MOVE_CARD
+  DELETE_LIST
+}
+
+model List {
+  id      String @id @default(uuid())
+  title   String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId String
+  cards   Card[]
+}
+
+model Card {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  list        List       @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId      String
+  comments    Comments[]
+}
+
+model Comments {
+  id        String   @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId    String
+}
