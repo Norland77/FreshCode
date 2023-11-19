@@ -6,6 +6,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BoardModule } from './board/board.module';
+import { ActivityModule } from './activity/activity.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BoardModule } from './board/board.module';
     AuthModule,
     PrismaModule,
     BoardModule,
+    ActivityModule,
   ],
   controllers: [],
   providers: [
