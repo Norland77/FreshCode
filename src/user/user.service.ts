@@ -24,4 +24,8 @@ export class UserService {
   async findUserByEmail(email: string) {
     return this.userRepository.findUserByEmail(email);
   }
+
+  async findUserByToken(token: string) {
+    return this.userRepository.findUserByToken(token);
+  }
 }

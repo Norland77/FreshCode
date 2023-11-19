@@ -56,4 +56,15 @@ export class UserRepository {
       },
     });
   }
+
+  findUserByToken(token: string) {
+    return this.prismaService.token.findFirst({
+      where: {
+        token,
+      },
+      select: {
+        userId: true,
+      },
+    });
+  }
 }
