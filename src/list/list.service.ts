@@ -24,4 +24,8 @@ export class ListService {
   async deleteList(id: string) {
     return this.listRepository.deleteList(id);
   }
+
+  getAllLists(boardId: string) {
+    return this.listRepository.getAllLists(boardId);
+  }
 }

@@ -10,5 +10,6 @@ import { UserModule } from '../user/user.module';
   providers: [ListService, ListRepository],
   controllers: [ListController, ListRepository],
   imports: [ActivityModule, BoardModule, UserModule],
+  exports: [ListService],
 })
 export class ListModule {}

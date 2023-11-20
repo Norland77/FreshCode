@@ -2,11 +2,11 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Delete,
+  Delete, Get,
   Param,
   Post,
-  Put,
-} from '@nestjs/common';
+  Put
+} from "@nestjs/common";
 import { ListService } from './list.service';
 import { ActivityService } from '../activity/activity.service';
 import { ListDto } from './dto/list.dto';
@@ -181,5 +181,16 @@ export class ListController {
       activityDesc,
       ActivityType.DELETE_LIST,
     );
+  }
+
+  @Get('all/:BoardId')
+  async getAllLists(@Param('BoardId') boardId: string) {
+    const board = await this.boardService.findBoardById(boardId);
+
+    if (!board) {
+      throw new BadRequestException(`Board with id ${boardId} is not exist`);
+    }
+
+    return this.listService.getAllLists(boardId);
   }
 }

@@ -48,4 +48,17 @@ export class ListRepository {
       },
     });
   }
+
+  getAllLists(boardId: string) {
+    return this.prismaService.list.findMany({
+      where: {
+        boardId,
+      },
+      select: {
+        id: true,
+        title: true,
+        cards: true,
+      },
+    });
+  }
 }
