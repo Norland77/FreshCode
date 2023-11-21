@@ -20,6 +20,9 @@ export class CardRepository {
       where: {
         id,
       },
+      include: {
+        comments: true,
+      },
     });
   }
 

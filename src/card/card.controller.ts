@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
+  Get,
   Param,
   Post,
-  Put
-} from "@nestjs/common";
+  Put,
+} from '@nestjs/common';
 import { CardService } from './card.service';
 import { Cookie } from '../../libs/common/src/decorators';
 import { ListService } from '../list/list.service';
@@ -221,5 +223,10 @@ export class CardController {
       activityDesc,
       ActivityType.DELETE_CARD,
     );
+  }
+
+  @Get('/:Id')
+  async getCardById(@Param('Id') id: string) {
+    return this.cardService.findCardById(id);
   }
 }
