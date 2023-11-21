@@ -11,5 +11,6 @@ import { ActivityModule } from '../activity/activity.module';
   providers: [CardService, CardRepository],
   controllers: [CardController, CardRepository],
   imports: [UserModule, BoardModule, ListModule, ActivityModule],
+  exports: [CardService],
 })
 export class CardModule {}

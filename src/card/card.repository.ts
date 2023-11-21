@@ -21,7 +21,17 @@ export class CardRepository {
         id,
       },
       include: {
-        comments: true,
+        comments: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                email: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
   }
