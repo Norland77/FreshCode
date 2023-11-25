@@ -31,6 +31,9 @@ export class CommentController {
     @Cookie(REFRESH_TOKEN) refreshtoken: string,
     @Body() dto: CommentDto,
   ) {
+
+    console.log('Comment')
+
     const card = await this.cardService.findCardById(cardId);
 
     if (!card) {
@@ -46,13 +49,13 @@ export class CommentController {
     const userByToken = await this.userService.findUserByToken(refreshtoken);
 
     if (!userByToken) {
-      throw new BadRequestException();
+      throw new BadRequestException('Don`t find user');
     }
 
     const user = await this.userService.findUserById(userByToken.userId);
 
     if (!user) {
-      throw new BadRequestException();
+      throw new BadRequestException('Don`t find user');
     }
 
     const createdComment = await this.commentService.createComment(
@@ -62,7 +65,7 @@ export class CommentController {
     );
 
     if (!createdComment) {
-      throw new BadRequestException();
+      throw new BadRequestException('not create comment');
     }
 
     const activityDesc = `${user.email} add comment to card '${card.title}'`;

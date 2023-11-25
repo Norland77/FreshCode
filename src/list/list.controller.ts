@@ -56,7 +56,6 @@ export class ListController {
     }
 
     const userByToken = await this.userService.findUserByToken(refreshtoken);
-
     if (!userByToken) {
       throw new BadRequestException();
     }
@@ -68,7 +67,6 @@ export class ListController {
     }
 
     const activityDesc = `${user.email} added list '${dto.title}'`;
-
     return this.activityService.createActivity(
       user.id,
       boardId,

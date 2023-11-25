@@ -59,11 +59,12 @@ enum ActivityType {
 }
 
 model List {
-  id      String @id @default(uuid())
-  title   String
-  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  boardId String
-  cards   Card[]
+  id        String   @id @default(uuid())
+  title     String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  createdAt DateTime @default(now())
+  cards     Card[]
 }
 
 model Card {

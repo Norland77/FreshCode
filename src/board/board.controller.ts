@@ -13,6 +13,7 @@ import { BoardDto } from './dto/board.dto';
 import { Cookie } from '../../libs/common/src/decorators';
 import { UserService } from '../user/user.service';
 const REFRESH_TOKEN = 'refreshtoken';
+
 @Controller('board')
 export class BoardController {
   constructor(
@@ -67,5 +68,16 @@ export class BoardController {
   @Get('all')
   async getAllBoard() {
     return this.boardService.getAllBoard();
+  }
+
+  @Get('/:Id')
+  async getBoardById(@Param('Id') id: string) {
+    const board = await this.boardService.findBoardById(id);
+
+    if (!board) {
+      throw new BadRequestException(`Board with id ${id} is not exist`);
+    }
+
+    return this.boardService.findBoardById(id);
   }
 }

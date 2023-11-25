@@ -57,7 +57,28 @@ export class ListRepository {
       select: {
         id: true,
         title: true,
-        cards: true,
+        cards: {
+          select: {
+            title: true,
+            description: true,
+            listId: true,
+            id: true,
+            comments: {
+              select: {
+                user: {
+                  select: {
+                    username: true,
+                  },
+                },
+                text: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
     });
   }

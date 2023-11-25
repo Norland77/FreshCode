@@ -11,6 +11,9 @@ export class ActivityRepository {
       where: {
         boardId: id,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
