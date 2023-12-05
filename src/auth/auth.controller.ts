@@ -80,9 +80,7 @@ export class AuthController {
     }
 
     const token = await this.authService.refreshtoken(refreshtoken);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
+
     this.setRefreshTokenToCookies(token, res);
   }
 
