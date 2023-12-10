@@ -485,6 +485,75 @@ describe('ListController', () => {
     });
   });
   describe('deleteList', () => {
+    it('should create activity and return result if everything is valid', async () => {
+      const boardId = 'valid-board-id';
+      const listId = 'valid-list-id';
+      const refreshtoken = 'valid-refresh-token';
+
+      const mockBoard = {
+        id: 'valid-board-id',
+        title: 'Board Title',
+        userId: 'user-id',
+      };
+      const mockList = {
+        id: 'valid-list-id',
+        title: 'List Title',
+        boardId: 'valid-board-id',
+        createdAt: new Date(),
+      };
+      const mockUser = {
+        id: 'user-id',
+        username: 'username',
+        email: 'user@example.com',
+        password: 'password',
+      };
+      const mockActivity = {
+        id: 'activity-id',
+        userId: 'user-id',
+        boardId: 'valid-board-id',
+        description: `user@example.com delete list 'List Title'`,
+        type: ActivityType.DELETE_LIST,
+        createdAt: new Date(),
+      };
+
+      jest
+        .spyOn(mockBoardService, 'findBoardById')
+        .mockResolvedValueOnce(mockBoard);
+      jest
+        .spyOn(mockListService, 'findListById')
+        .mockResolvedValueOnce(mockList);
+      jest.spyOn(mockListService, 'deleteList').mockResolvedValueOnce(true);
+
+      jest.spyOn(mockUserService, 'findUserByToken').mockResolvedValueOnce({
+        userId: 'user-id',
+      });
+
+      jest
+        .spyOn(mockUserService, 'findUserById')
+        .mockResolvedValueOnce(mockUser);
+      jest
+        .spyOn(mockActivityService, 'createActivity')
+        .mockResolvedValueOnce(mockActivity);
+
+      const result = await controller.deleteList(boardId, listId, refreshtoken);
+
+      expect(mockBoardService.findBoardById).toHaveBeenCalledWith(boardId);
+      expect(mockListService.findListById).toHaveBeenCalledWith(listId);
+      expect(mockListService.deleteList).toHaveBeenCalledWith(listId);
+
+      expect(mockUserService.findUserByToken).toHaveBeenCalledWith(
+        refreshtoken,
+      );
+
+      expect(mockUserService.findUserById).toHaveBeenCalledWith('user-id');
+      expect(mockActivityService.createActivity).toHaveBeenCalledWith(
+        'user-id',
+        boardId,
+        `user@example.com delete list 'List Title'`,
+        ActivityType.DELETE_LIST,
+      );
+      expect(result).toEqual(mockActivity);
+    });
     it('should throw BadRequestException if board does not exist', async () => {
       const boardId = 'invalid-board-id';
       const listId = 'valid-list-id';
@@ -603,72 +672,6 @@ describe('ListController', () => {
       await expect(
         controller.deleteList(boardId, listId, refreshtoken),
       ).rejects.toThrowError(BadRequestException);
-    });
-
-    it('should create activity and return result if everything is valid', async () => {
-      const boardId = 'valid-board-id';
-      const listId = 'valid-list-id';
-      const refreshtoken = 'valid-refresh-token';
-
-      const mockBoard = {
-        id: 'valid-board-id',
-        title: 'Board Title',
-        userId: 'user-id',
-      };
-      const mockList = {
-        id: 'valid-list-id',
-        title: 'List Title',
-        boardId: 'valid-board-id',
-        createdAt: new Date(),
-      };
-      const mockUser = {
-        id: 'user-id',
-        username: 'username',
-        email: 'user@example.com',
-        password: 'password',
-      };
-      const mockActivity = {
-        id: 'activity-id',
-        userId: 'user-id',
-        boardId: 'valid-board-id',
-        description: `user@example.com delete list 'List Title'`,
-        type: ActivityType.DELETE_LIST,
-        createdAt: new Date(),
-      };
-
-      jest
-        .spyOn(mockBoardService, 'findBoardById')
-        .mockResolvedValueOnce(mockBoard);
-      jest
-        .spyOn(mockListService, 'findListById')
-        .mockResolvedValueOnce(mockList);
-      jest.spyOn(mockListService, 'deleteList').mockResolvedValueOnce(true);
-      jest.spyOn(mockUserService, 'findUserByToken').mockResolvedValueOnce({
-        userId: 'user-id',
-      });
-      jest
-        .spyOn(mockUserService, 'findUserById')
-        .mockResolvedValueOnce(mockUser);
-      jest
-        .spyOn(mockActivityService, 'createActivity')
-        .mockResolvedValueOnce(mockActivity);
-
-      const result = await controller.deleteList(boardId, listId, refreshtoken);
-
-      expect(mockBoardService.findBoardById).toHaveBeenCalledWith(boardId);
-      expect(mockListService.findListById).toHaveBeenCalledWith(listId);
-      expect(mockListService.deleteList).toHaveBeenCalledWith(listId);
-      expect(mockUserService.findUserByToken).toHaveBeenCalledWith(
-        refreshtoken,
-      );
-      expect(mockUserService.findUserById).toHaveBeenCalledWith('user-id');
-      expect(mockActivityService.createActivity).toHaveBeenCalledWith(
-        'user-id',
-        boardId,
-        `user@example.com delete list 'List Title'`,
-        ActivityType.DELETE_LIST,
-      );
-      expect(result).toEqual(mockActivity);
     });
   });
 
