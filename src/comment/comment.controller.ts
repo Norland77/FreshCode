@@ -31,9 +31,6 @@ export class CommentController {
     @Cookie(REFRESH_TOKEN) refreshtoken: string,
     @Body() dto: CommentDto,
   ) {
-
-    console.log('Comment')
-
     const card = await this.cardService.findCardById(cardId);
 
     if (!card) {
