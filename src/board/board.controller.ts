@@ -78,6 +78,6 @@ export class BoardController {
       throw new BadRequestException(`Board with id ${id} is not exist`);
     }
 
-    return this.boardService.findBoardById(id);
+    return board;
   }
 }

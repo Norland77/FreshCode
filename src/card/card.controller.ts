@@ -227,6 +227,12 @@ export class CardController {
 
   @Get('/:Id')
   async getCardById(@Param('Id') id: string) {
-    return this.cardService.findCardById(id);
+    const card = await this.cardService.findCardById(id);
+
+    if (!card) {
+      throw new BadRequestException(`Card with id ${id} is not exist`);
+    }
+
+    return card;
   }
 }
