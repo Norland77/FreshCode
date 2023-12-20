@@ -21,13 +21,13 @@ Make sure you have the following installed on your system:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/nestjs-project-management.git
+    git clone https://github.com/Norland77/freshcode.git
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd nestjs-project-management
+    cd freshcode
     ```
 
 3. Install dependencies:
